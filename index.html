@@ -1,0 +1,1711 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rumbo Voraz — Performance Marketing</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      /* Logo palette */
+      --red:      #D92B1C;
+      --orange:   #F47920;
+      --blue:     #1565C0;
+      --cyan:     #42A5F5;
+
+      /* Brand gradient — follows the V logo */
+      --grad: linear-gradient(90deg, #D92B1C 0%, #F47920 35%, #1565C0 70%, #42A5F5 100%);
+      --grad-45: linear-gradient(135deg, #D92B1C 0%, #F47920 35%, #1565C0 70%, #42A5F5 100%);
+
+      --dark:   #07090E;
+      --dark2:  #0C0F17;
+      --dark3:  #10141E;
+      --white:  #FFFFFF;
+      --muted:  rgba(255,255,255,0.45);
+      --border: rgba(255,255,255,0.07);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--dark);
+      color: var(--white);
+      overflow-x: hidden;
+    }
+
+    /* ── GRADIENT UTILITIES ── */
+    .grad-text {
+      background: var(--grad);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 64px;
+      background: rgba(7,9,14,0.92);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-brand {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      line-height: 1;
+    }
+
+    .nav-brand .cosmart-label {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 8.5px;
+      font-weight: 500;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.55);
+    }
+
+    .nav-brand .rv-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-weight: 400;
+      font-size: 24px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--white);
+      line-height: 1;
+    }
+
+    .nav-brand .rv-name .v-accent {
+      background: var(--grad);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+      align-items: center;
+    }
+
+    .nav-links a {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--white); }
+
+    .nav-cta {
+      background: var(--orange) !important;
+      color: var(--white) !important;
+      padding: 9px 22px !important;
+      border-radius: 3px;
+      transition: opacity 0.2s !important;
+    }
+    .nav-cta:hover { opacity: 0.88; }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      padding: 130px 64px 100px;
+      background: #FFFFFF;
+    }
+
+    .hero-glow {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 45% 55% at 85% 40%, rgba(244,121,32,0.07) 0%, transparent 65%),
+        radial-gradient(ellipse 35% 50% at 15% 75%, rgba(21,101,192,0.07) 0%, transparent 60%);
+    }
+
+    /* Signature gradient line at bottom */
+    .hero-rule {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--grad);
+      opacity: 0.8;
+    }
+
+    .hero-rule-2 {
+      position: absolute;
+      bottom: 7px; left: 6%; right: 6%;
+      height: 1px;
+      background: var(--grad);
+      opacity: 0.15;
+    }
+
+    /* Grid overlay */
+    .hero-grid-bg {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,0,0,0.028) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,0,0,0.028) 1px, transparent 1px);
+      background-size: 64px 64px;
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 820px;
+    }
+
+    .hero-eyebrow {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 28px;
+    }
+
+    .hero-eyebrow-line {
+      display: block;
+      width: 48px;
+      height: 2px;
+      background: var(--grad);
+      flex-shrink: 0;
+    }
+
+    .hero-eyebrow-text { color: var(--cyan); }
+
+    .hero h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-weight: 400;
+      font-size: clamp(72px, 10vw, 128px);
+      line-height: 0.92;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #0A0C12;
+      margin-bottom: 32px;
+    }
+
+    .hero h1 .line-grad {
+      background: var(--grad);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      display: block;
+    }
+
+    .hero-sub {
+      font-size: 17px;
+      font-weight: 400;
+      color: rgba(0,0,0,0.52);
+      line-height: 1.75;
+      max-width: 500px;
+      margin-bottom: 52px;
+    }
+
+    .hero-sub strong { color: #0A0C12; font-weight: 600; }
+
+    .hero-actions {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    /* ── BUTTONS ── */
+    .btn-primary {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 14px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--white);
+      background: var(--orange);
+      padding: 15px 36px;
+      border-radius: 3px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: opacity 0.2s, transform 0.15s;
+    }
+    .btn-primary:hover { opacity: 0.88; transform: translateY(-1px); }
+
+    .btn-outline {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 14px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: #0A0C12;
+      background: transparent;
+      padding: 15px 32px;
+      border-radius: 3px;
+      border: 1px solid rgba(0,0,0,0.25);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .btn-outline:hover { border-color: rgba(0,0,0,0.5); background: rgba(0,0,0,0.04); }
+
+    /* ── METRICS ── */
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      background: var(--dark2);
+    }
+
+    .metric {
+      padding: 40px 44px;
+      border-right: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+    }
+    .metric:last-child { border-right: none; }
+
+    .metric::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 100%;
+      height: 2px;
+      background: var(--grad);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.4s ease;
+    }
+    .metric:hover::after { transform: scaleX(1); }
+
+    .metric-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-weight: 400;
+      font-size: 54px;
+      line-height: 1;
+      letter-spacing: 2px;
+      background: var(--grad);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .metric-label {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: 8px;
+    }
+
+    /* ── SECTIONS ── */
+    section { padding: 100px 64px; }
+
+    .eyebrow {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--orange);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .eyebrow::before {
+      content: '';
+      width: 28px; height: 2px;
+      background: var(--grad);
+      flex-shrink: 0;
+    }
+
+    h2.st {
+      font-family: 'Bebas Neue', sans-serif;
+      font-weight: 400;
+      font-size: clamp(48px, 5.5vw, 72px);
+      line-height: 0.95;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+
+    .sec-desc {
+      font-size: 16px;
+      color: var(--muted);
+      line-height: 1.75;
+      max-width: 520px;
+    }
+
+    /* ── PROBLEM (fondo blanco) ── */
+    .problem { background: #FFFFFF; }
+    .problem .eyebrow { color: var(--orange); }
+    .problem h2.st { color: #0A0C12; }
+
+    .problem-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+      margin-top: 64px;
+    }
+
+    .pain-list { list-style: none; }
+
+    .pain-item {
+      padding: 26px 0;
+      border-bottom: 1px solid rgba(0,0,0,0.08);
+      display: grid;
+      grid-template-columns: 48px 1fr;
+      gap: 16px;
+    }
+
+    .pain-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-weight: 400;
+      font-size: 26px;
+      letter-spacing: 1px;
+      line-height: 1.3;
+      background: var(--grad);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      opacity: 0.5;
+    }
+
+    .pain-title {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 17px;
+      letter-spacing: 0.2px;
+      color: #0A0C12;
+      margin-bottom: 5px;
+    }
+
+    .pain-text { font-size: 14px; color: rgba(0,0,0,0.5); line-height: 1.6; }
+
+    /* Compare card */
+    .compare-card {
+      background: #F4F4F2;
+      border: 1px solid rgba(0,0,0,0.08);
+      padding: 40px 36px;
+      position: relative;
+    }
+    .compare-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--grad);
+    }
+
+    .compare-label {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: rgba(0,0,0,0.35);
+      margin-bottom: 32px;
+    }
+
+    .compare-row { margin-bottom: 24px; }
+
+    .compare-head {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+
+    .compare-name {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: rgba(0,0,0,0.4);
+    }
+
+    .compare-val {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 15px;
+      color: #0A0C12;
+    }
+
+    .compare-val.hot {
+      background: var(--grad);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .bar-bg {
+      height: 4px;
+      background: rgba(0,0,0,0.07);
+      border-radius: 99px;
+      overflow: hidden;
+    }
+
+    .bar {
+      height: 100%;
+      border-radius: 99px;
+    }
+    .bar.rv { background: var(--grad); }
+    .bar.std { background: rgba(0,0,0,0.15); }
+
+    /* ── SERVICES (fondo claro) ── */
+    .services { background: #F4F4F2; }
+    .services .eyebrow { color: var(--orange); }
+    .services h2.st { color: #0A0C12; }
+    .services .sec-desc { color: rgba(0,0,0,0.5); }
+
+    .services-top {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: end;
+      margin-bottom: 56px;
+    }
+
+    .srv-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: rgba(0,0,0,0.07);
+    }
+
+    .srv-card {
+      background: #FFFFFF;
+      padding: 34px 28px;
+      transition: background 0.25s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .srv-card::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--grad);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.35s ease;
+    }
+
+    .srv-card:hover { background: #F9F9F7; }
+    .srv-card:hover::after { transform: scaleX(1); }
+
+    .srv-icon {
+      margin-bottom: 20px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .srv-name {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 17px;
+      letter-spacing: 0.2px;
+      text-transform: uppercase;
+      color: #0A0C12;
+      margin-bottom: 10px;
+    }
+
+    .srv-desc { font-size: 13px; color: rgba(0,0,0,0.48); line-height: 1.6; }
+
+    /* ── HOW ── */
+    .how { background: var(--dark); }
+
+    .how-wrap {
+      display: grid;
+      grid-template-columns: 340px 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+
+    .how-steps {
+      margin-top: 60px;
+    }
+
+    .how-step {
+      display: grid;
+      grid-template-columns: 56px 1fr;
+      gap: 20px;
+      padding: 28px 0;
+      border-bottom: 1px solid var(--border);
+      align-items: start;
+    }
+    .how-step:last-child { border-bottom: none; }
+
+    .step-n {
+      font-family: 'Bebas Neue', sans-serif;
+      font-weight: 400;
+      font-size: 52px;
+      line-height: 1.1;
+      letter-spacing: 2px;
+      opacity: 0.12;
+      background: var(--grad);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      transition: opacity 0.3s;
+    }
+    .how-step:hover .step-n { opacity: 1; }
+
+    .step-title {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 17px;
+      margin-bottom: 6px;
+    }
+
+    .step-text { font-size: 14px; color: var(--muted); line-height: 1.6; }
+
+    /* ── PLATFORMS ── */
+    .platforms { background: var(--dark2); }
+
+    .platforms-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 1px;
+      background: var(--border);
+      margin-top: 56px;
+    }
+
+    .plat-card {
+      background: var(--dark);
+      padding: 44px 20px 36px;
+      text-align: center;
+      transition: background 0.2s;
+      position: relative;
+    }
+
+    .plat-card:hover { background: var(--dark3); }
+
+    .plat-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--grad);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.35s ease;
+    }
+    .plat-card:hover::after { transform: scaleX(1); }
+
+    .plat-logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      height: 40px;
+      margin: 0 auto 20px;
+    }
+
+    .plat-name {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 15px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+    }
+
+    .plat-type { font-size: 12px; color: var(--muted); }
+
+    /* ── ECOSYSTEM STRIP ── */
+    .ecosystem {
+      padding: 40px 64px;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      background: var(--dark);
+    }
+
+    .eco-inner {
+      display: flex;
+      align-items: center;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+
+    .eco-label {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.18);
+      white-space: nowrap;
+    }
+
+    .eco-sep { width: 1px; height: 24px; background: var(--border); }
+
+    .eco-ports {
+      display: flex;
+      gap: 28px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .eco-port {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 12px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.15);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .eco-port:hover { color: rgba(255,255,255,0.55); }
+    .eco-port.active {
+      background: var(--grad);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      pointer-events: none;
+      font-weight: 800;
+    }
+
+    /* ── FAQ ── */
+    .faq { background: var(--dark2); }
+
+    .faq-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+      background: var(--border);
+      margin-top: 56px;
+    }
+
+    .faq-item {
+      background: var(--dark);
+      padding: 32px 36px;
+    }
+
+    .faq-q {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
+
+    .faq-a { font-size: 14px; color: var(--muted); line-height: 1.7; }
+
+    /* ── CTA ── */
+    .cta-sec {
+      background: var(--dark);
+      padding: 120px 64px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-sec::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 55% 65% at 50% 50%, rgba(244,121,32,0.07) 0%, transparent 65%);
+    }
+
+    .cta-sec .eyebrow { justify-content: center; }
+    .cta-sec .eyebrow::before { display: none; }
+    .cta-sec h2.st { max-width: 700px; margin: 0 auto 18px; }
+    .cta-sec .sec-desc { margin: 0 auto 52px; }
+
+    .cta-btns {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      position: relative;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--dark2);
+      border-top: 1px solid var(--border);
+      padding: 64px 64px 36px;
+    }
+
+    .footer-top {
+      display: grid;
+      grid-template-columns: 2.2fr 1fr 1fr;
+      gap: 64px;
+      margin-bottom: 48px;
+      padding-bottom: 48px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .footer-brand-block .f-cosmart {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--cyan);
+      opacity: 0.7;
+      margin-bottom: 6px;
+    }
+
+    .footer-brand-block .f-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-weight: 400;
+      font-size: 38px;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .footer-brand-block .f-name .v-accent {
+      background: var(--grad);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .footer-brand-block .f-tagline {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+
+    .footer-brand-block p {
+      font-size: 14px;
+      color: rgba(255,255,255,0.35);
+      line-height: 1.75;
+      max-width: 320px;
+    }
+
+    .footer-col h4 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+
+    .footer-col a {
+      font-size: 14px;
+      color: rgba(255,255,255,0.4);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-col a:hover { color: var(--white); }
+
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .footer-bottom p { font-size: 12px; color: rgba(255,255,255,0.18); }
+    .footer-bottom p a { color: rgba(255,255,255,0.4); text-decoration: none; }
+
+    .back-cosmart {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 12px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      background: var(--grad);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      transition: opacity 0.2s;
+    }
+    .back-cosmart:hover { opacity: 0.7; }
+
+    .back-cosmart-arrow {
+      display: inline-block;
+      width: 18px;
+      height: 1px;
+      background: var(--grad);
+      position: relative;
+      vertical-align: middle;
+    }
+
+    /* ── CONTACT SECTION ── */
+    .contact-sec {
+      background: var(--dark);
+      padding: 100px 64px;
+    }
+
+    .contact-inner {
+      display: grid;
+      grid-template-columns: 1fr 1.6fr;
+      gap: 80px;
+      align-items: start;
+    }
+
+    .contact-form {
+      background: var(--dark2);
+      border: 1px solid var(--border);
+      padding: 44px 40px;
+      position: relative;
+    }
+
+    .contact-form::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--grad);
+    }
+
+    .form-label {
+      display: block;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.45);
+      margin-bottom: 14px;
+    }
+
+    .form-group { margin-bottom: 24px; }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .form-input {
+      width: 100%;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      color: var(--white);
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      padding: 13px 16px;
+      border-radius: 2px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .form-input::placeholder { color: rgba(255,255,255,0.2); }
+    .form-input:focus { border-color: rgba(66,165,245,0.5); }
+
+    .form-textarea {
+      min-height: 90px;
+      resize: vertical;
+    }
+
+    /* Platform multi-select checkboxes */
+    .platform-checks {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    .check-card-wide { grid-column: span 1; }
+
+    .check-card { cursor: pointer; }
+
+    .check-card input[type="checkbox"] {
+      position: absolute;
+      opacity: 0;
+      width: 0; height: 0;
+    }
+
+    .check-inner {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 5px;
+      padding: 14px 14px 12px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      transition: background 0.15s, border-color 0.15s;
+      cursor: pointer;
+    }
+
+    .check-card input:checked + .check-inner {
+      background: rgba(244,121,32,0.08);
+      border-color: var(--orange);
+    }
+
+    .check-card:hover .check-inner {
+      background: rgba(255,255,255,0.06);
+      border-color: rgba(255,255,255,0.18);
+    }
+
+    .check-icons {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      height: 20px;
+      color: rgba(255,255,255,0.5);
+    }
+
+    .check-name {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+      color: var(--white);
+    }
+
+    .check-sub {
+      font-size: 10px;
+      color: rgba(255,255,255,0.35);
+      letter-spacing: 0.3px;
+    }
+
+    .social-fields {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .social-field {
+      display: flex;
+      align-items: center;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      transition: border-color 0.2s;
+    }
+
+    .social-field:focus-within { border-color: rgba(66,165,245,0.5); }
+
+    .social-field-wide { grid-column: span 2; }
+
+    .social-field-icon {
+      padding: 0 12px;
+      display: flex;
+      align-items: center;
+      flex-shrink: 0;
+    }
+
+    .social-input {
+      border: none !important;
+      background: transparent !important;
+      padding-left: 0 !important;
+      flex: 1;
+    }
+
+    .social-input:focus { border: none !important; }
+
+    .form-submit {
+      width: 100%;
+      justify-content: center;
+      margin-top: 4px;
+      border: none;
+      cursor: pointer;
+      font-size: 15px;
+    }
+
+    .form-success {
+      display: none;
+      margin-top: 20px;
+      padding: 16px 20px;
+      background: rgba(66,165,245,0.08);
+      border: 1px solid rgba(66,165,245,0.3);
+      border-radius: 2px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--cyan);
+      text-align: center;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1024px) {
+      nav { padding: 14px 28px; }
+      .nav-links { display: none; }
+      section { padding: 80px 28px; }
+      .hero { padding: 110px 28px 80px; }
+      .metrics { grid-template-columns: repeat(2, 1fr); }
+      .metric { border-bottom: 1px solid var(--border); }
+      .problem-layout { grid-template-columns: 1fr; gap: 48px; }
+      .services-top { grid-template-columns: 1fr; gap: 24px; }
+      .srv-grid { grid-template-columns: repeat(2, 1fr); }
+      .how-wrap { grid-template-columns: 1fr; gap: 0; }
+      .how-steps { margin-top: 40px; }
+      .faq-grid { grid-template-columns: 1fr; }
+      .contact-inner { grid-template-columns: 1fr; gap: 40px; }
+      .platform-checks { grid-template-columns: repeat(2, 1fr); }
+      .form-row { grid-template-columns: 1fr; }
+      footer { padding: 48px 28px 28px; }
+      .footer-top { grid-template-columns: 1fr; gap: 40px; }
+      .footer-bottom { flex-direction: column; text-align: center; }
+      .ecosystem { padding: 32px 28px; }
+    }
+
+    @media (max-width: 600px) {
+      nav { padding: 12px 20px; }
+      section { padding: 60px 20px; }
+      .hero { padding: 96px 20px 60px; }
+      .metrics { grid-template-columns: 1fr 1fr; }
+      .metric { padding: 28px 20px; }
+      .metric-num { font-size: 38px; letter-spacing: 1px; }
+      .metric-label { font-size: 9px; letter-spacing: 1px; }
+      .srv-grid { grid-template-columns: 1fr; }
+      .platform-checks { grid-template-columns: 1fr 1fr; }
+      .social-fields { grid-template-columns: 1fr; }
+      .social-field-wide { grid-column: span 1; }
+      footer { padding: 36px 20px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand">
+    <span class="cosmart-label">Puerto · COSMART</span>
+    <span class="rv-name">RUMBO <span class="v-accent">VORAZ</span></span>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#servicios">Servicios</a></li>
+    <li><a href="#como">Proceso</a></li>
+    <li><a href="#admision">Admisión</a></li>
+    <li><a href="#faq">FAQ</a></li>
+    <li><a href="#contacto" class="nav-cta">Postularse →</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-grid-bg"></div>
+  <div class="hero-rule"></div>
+  <div class="hero-rule-2"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">
+      <span class="hero-eyebrow-line"></span>
+      <span class="hero-eyebrow-text">Performance Marketing</span>
+    </div>
+    <h1>
+      <span class="line-grad">Más rápido.</span>
+      Más lejos.<br/>Más resultados.
+    </h1>
+    <p class="hero-sub">
+      Rumbo Voraz transforma tu inversión publicitaria en crecimiento real.
+      <strong>Meta, Google, TikTok, LinkedIn.</strong>
+      Sin vueltas. Sin excusas. Solo performance.
+    </p>
+    <div class="hero-actions">
+      <a href="#contacto" class="btn-primary">Postulá tu proyecto →</a>
+      <a href="#servicios" class="btn-outline">Ver servicios</a>
+    </div>
+  </div>
+</section>
+
+<!-- METRICS -->
+<div class="metrics">
+  <div class="metric">
+    <div class="metric-num">+320%</div>
+    <div class="metric-label">ROAS promedio Meta Ads</div>
+  </div>
+  <div class="metric">
+    <div class="metric-num">−42%</div>
+    <div class="metric-label">Costo por lead optimizado</div>
+  </div>
+  <div class="metric">
+    <div class="metric-num">+180%</div>
+    <div class="metric-label">Conversiones Google Ads</div>
+  </div>
+  <div class="metric">
+    <div class="metric-num" style="font-size:36px;letter-spacing:1px;">Admisión</div>
+    <div class="metric-label">Solo proyectos seleccionados</div>
+  </div>
+</div>
+
+<!-- PROBLEM -->
+<section class="problem" id="problema">
+  <div class="eyebrow">El problema</div>
+  <h2 class="st">¿Tu publicidad<br/><span class="grad-text">gasta más</span><br/>de lo que trae?</h2>
+  <div class="problem-layout">
+    <ul class="pain-list">
+      <li class="pain-item">
+        <div class="pain-num">01</div>
+        <div>
+          <div class="pain-title">Presupuesto que se evapora</div>
+          <p class="pain-text">Inversiones sin estrategia que generan impresiones, no resultados. El dinero corre, los clientes no llegan.</p>
+        </div>
+      </li>
+      <li class="pain-item">
+        <div class="pain-num">02</div>
+        <div>
+          <div class="pain-title">Audiencias mal segmentadas</div>
+          <p class="pain-text">Llegarle a todos es no llegarle a nadie. Sin targeting preciso, cada peso invertido es un peso perdido.</p>
+        </div>
+      </li>
+      <li class="pain-item">
+        <div class="pain-num">03</div>
+        <div>
+          <div class="pain-title">Embudos que no convierten</div>
+          <p class="pain-text">Tráfico de sobra, ventas de menos. El problema no es el clic, es el recorrido completo.</p>
+        </div>
+      </li>
+      <li class="pain-item">
+        <div class="pain-num">04</div>
+        <div>
+          <div class="pain-title">Reportes que no dicen nada</div>
+          <p class="pain-text">Métricas de vanidad que no se traducen en decisiones de negocio. Muchos datos, poca claridad.</p>
+        </div>
+      </li>
+    </ul>
+
+    <div class="compare-card">
+      <div class="compare-label">Sin estrategia vs. Rumbo Voraz</div>
+      <div class="compare-row">
+        <div class="compare-head"><span class="compare-name">ROAS — sin estrategia</span><span class="compare-val">1.2×</span></div>
+        <div class="bar-bg"><div class="bar std" style="width:22%"></div></div>
+      </div>
+      <div class="compare-row">
+        <div class="compare-head"><span class="compare-name">ROAS — Rumbo Voraz</span><span class="compare-val hot">4.5×</span></div>
+        <div class="bar-bg"><div class="bar rv" style="width:88%"></div></div>
+      </div>
+      <div class="compare-row" style="margin-top:28px">
+        <div class="compare-head"><span class="compare-name">CTR promedio industria</span><span class="compare-val">1.8%</span></div>
+        <div class="bar-bg"><div class="bar std" style="width:34%"></div></div>
+      </div>
+      <div class="compare-row">
+        <div class="compare-head"><span class="compare-name">CTR optimizado RV</span><span class="compare-val hot">5.4%</span></div>
+        <div class="bar-bg"><div class="bar rv" style="width:78%"></div></div>
+      </div>
+      <div class="compare-row" style="margin-top:28px">
+        <div class="compare-head"><span class="compare-name">Costo por lead estándar</span><span class="compare-val">$2.400</span></div>
+        <div class="bar-bg"><div class="bar std" style="width:62%"></div></div>
+      </div>
+      <div class="compare-row">
+        <div class="compare-head"><span class="compare-name">Costo por lead RV</span><span class="compare-val hot">$890</span></div>
+        <div class="bar-bg"><div class="bar rv" style="width:22%"></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services" id="servicios">
+  <div class="services-top">
+    <div>
+      <div class="eyebrow">Servicios</div>
+      <h2 class="st">Todo lo que<br/>necesitás para<br/><span class="grad-text">crecer</span></h2>
+    </div>
+    <p class="sec-desc">Cada servicio está diseñado para generar impacto real en tu negocio. No vendemos campañas. Acompañamos resultados.</p>
+  </div>
+  <div class="srv-grid">
+
+    <!-- Meta Ads: Facebook + Instagram -->
+    <div class="srv-card">
+      <div class="srv-icon">
+        <!-- Facebook "f" -->
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="24" height="24" rx="5" fill="#1877F2"/>
+          <path d="M16.5 2H14C11.239 2 9 4.239 9 7v2H6.5v3.5H9V22h3.5v-9.5H15l.5-3.5h-3V7c0-.828.672-1.5 1.5-1.5H16.5V2Z" fill="white"/>
+        </svg>
+        <!-- Instagram gradient -->
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="ig-grad" cx="30%" cy="107%" r="150%">
+              <stop offset="0%" stop-color="#ffd600"/>
+              <stop offset="20%" stop-color="#ff7a00"/>
+              <stop offset="45%" stop-color="#ff0069"/>
+              <stop offset="65%" stop-color="#d300c5"/>
+              <stop offset="100%" stop-color="#7638fa"/>
+            </radialGradient>
+          </defs>
+          <rect width="24" height="24" rx="5.5" fill="url(#ig-grad)"/>
+          <rect x="2.5" y="2.5" width="19" height="19" rx="4" stroke="white" stroke-opacity="0.2" stroke-width="0.5" fill="none"/>
+          <circle cx="12" cy="12" r="4.5" stroke="white" stroke-width="2" fill="none"/>
+          <circle cx="17.5" cy="6.5" r="1.2" fill="white"/>
+        </svg>
+      </div>
+      <div class="srv-name">Meta Ads</div>
+      <p class="srv-desc">Facebook e Instagram. Segmentación avanzada, creatividades de alta conversión y optimización continua.</p>
+    </div>
+
+    <!-- Google Ads -->
+    <div class="srv-card">
+      <div class="srv-icon">
+        <svg width="26" height="26" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M37.86 20.39C37.86 19.11 37.75 17.87 37.54 16.68H20V23.7H29.92C29.52 25.84 28.31 27.66 26.5 28.87V33.25H32.4C35.88 30.04 37.86 25.64 37.86 20.39Z" fill="#4285F4"/>
+          <path d="M20 37.5C24.98 37.5 29.15 35.86 32.4 33.25L26.5 28.87C24.86 29.97 22.73 30.66 20 30.66C15.2 30.66 11.14 27.42 9.68 22.95H3.6V27.47C6.83 33.88 13.02 37.5 20 37.5Z" fill="#34A853"/>
+          <path d="M9.68 22.95C9.3 21.85 9.09 20.68 9.09 19.5C9.09 18.32 9.3 17.15 9.68 16.05V11.53H3.6C2.35 14.02 1.5 16.69 1.5 19.5C1.5 22.31 2.35 24.98 3.6 27.47L9.68 22.95Z" fill="#FBBC04"/>
+          <path d="M20 8.34C22.84 8.34 25.37 9.33 27.38 11.26L32.55 6.09C29.14 2.9 24.96 1 20 1C13.02 1 6.83 4.62 3.6 11.03L9.68 15.55C11.14 11.08 15.2 8.34 20 8.34Z" fill="#EA4335"/>
+        </svg>
+      </div>
+      <div class="srv-name">Google Ads</div>
+      <p class="srv-desc">Búsqueda, Display y Performance Max. Capturamos a quienes ya están buscando lo que ofrecés.</p>
+    </div>
+
+    <!-- TikTok Ads -->
+    <div class="srv-card">
+      <div class="srv-icon">
+        <svg width="24" height="26" viewBox="0 0 33 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M24.5 0C24.9 6.5 28.7 10.4 34.5 10.7V17.8C31.2 18.1 28.3 17.0 24.9 14.9V27.5C24.9 43.5 6.9 48.4 0.2 37.4C-4.6 29.5 -1.7 16.4 12.5 15.9V23.3C11.5 23.5 10.5 23.9 9.6 24.4C6.4 26.2 5.4 29.5 6.4 32.6C8.2 38.5 18.4 40.2 18.4 30.0V0H24.5Z" fill="white" transform="translate(-0.5, 0) scale(0.9)"/>
+          <path d="M24.5 0C24.9 6.5 28.7 10.4 34.5 10.7V17.8C31.2 18.1 28.3 17.0 24.9 14.9V27.5C24.9 43.5 6.9 48.4 0.2 37.4C-4.6 29.5 -1.7 16.4 12.5 15.9V23.3C11.5 23.5 10.5 23.9 9.6 24.4C6.4 26.2 5.4 29.5 6.4 32.6C8.2 38.5 18.4 40.2 18.4 30.0V0H24.5Z" fill="#EE1D52" fill-opacity="0.6" transform="translate(1, 0.5) scale(0.9)"/>
+          <path d="M23 0C23.5 6.5 27.3 10.4 33 10.7V17.8C29.7 18.1 26.8 17.0 23.4 14.9V27.5C23.4 43.5 5.4 48.4 -1.3 37.4C-6.1 29.5 -3.2 16.4 11 15.9V23.3C10 23.5 9 23.9 8.1 24.4C4.9 26.2 3.9 29.5 4.9 32.6C6.7 38.5 16.9 40.2 16.9 30.0V0H23Z" fill="white" transform="scale(0.9)"/>
+        </svg>
+      </div>
+      <div class="srv-name">TikTok Ads</div>
+      <p class="srv-desc">La plataforma de mayor crecimiento. Ideal para marcas que quieren escalar rápido con contenido que engancha.</p>
+    </div>
+
+    <!-- LinkedIn Ads -->
+    <div class="srv-card">
+      <div class="srv-icon">
+        <svg width="26" height="26" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="40" height="40" rx="6" fill="#0A66C2"/>
+          <path d="M14 23H18.5V36H14V23Z" fill="white"/>
+          <circle cx="16.25" cy="17.25" r="3" fill="white"/>
+          <path d="M21.5 23H26V25H26.06C26.78 23.6 28.6 22.2 31.3 22.2C36.1 22.2 37 25.7 37 30.1V36H32.5V31C32.5 28.8 32.46 25.9 29.2 25.9C25.92 25.9 25.5 28.3 25.5 30.8V36H21V23H21.5Z" fill="white"/>
+        </svg>
+      </div>
+      <div class="srv-name">LinkedIn Ads</div>
+      <p class="srv-desc">Para negocios B2B que necesitan llegar a tomadores de decisión con mensajes precisos y efecto real.</p>
+    </div>
+
+    <!-- Email Marketing -->
+    <div class="srv-card">
+      <div class="srv-icon">
+        <svg width="34" height="26" viewBox="0 0 34 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="1" y="1" width="32" height="24" rx="3.5" stroke="rgba(255,255,255,0.4)" stroke-width="1.5"/>
+          <path d="M1 4.5L17 15L33 4.5" stroke="rgba(255,255,255,0.4)" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="srv-name">Email Marketing</div>
+      <p class="srv-desc">Flujos automatizados y nurturing. Tu marca presente en el inbox justo en el momento que importa.</p>
+    </div>
+
+    <!-- Performance -->
+    <div class="srv-card">
+      <div class="srv-icon">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <polyline points="2,22 8,14 13,18 19,8 26,4" stroke="url(#perf-grad)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          <circle cx="26" cy="4" r="2.5" fill="#F47920"/>
+          <defs>
+            <linearGradient id="perf-grad" x1="2" y1="22" x2="26" y2="4" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#D92B1C"/>
+              <stop offset="0.5" stop-color="#F47920"/>
+              <stop offset="1" stop-color="#42A5F5"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+      <div class="srv-name">Performance Marketing</div>
+      <p class="srv-desc">Estrategia integral orientada a resultados. Cada acción medida, cada peso invertido justificado.</p>
+    </div>
+
+    <!-- Captación -->
+    <div class="srv-card">
+      <div class="srv-icon">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="14" cy="14" r="11.5" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>
+          <circle cx="14" cy="14" r="6.5" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>
+          <circle cx="14" cy="14" r="2.5" fill="#F47920"/>
+          <line x1="14" y1="1" x2="14" y2="5" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>
+          <line x1="14" y1="23" x2="14" y2="27" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>
+          <line x1="1" y1="14" x2="5" y2="14" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>
+          <line x1="23" y1="14" x2="27" y2="14" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>
+        </svg>
+      </div>
+      <div class="srv-name">Captación de Leads</div>
+      <p class="srv-desc">Sistemas diseñados para traer contactos calificados. No curiosos. Personas que realmente quieren lo que ofrecés.</p>
+    </div>
+
+    <!-- Embudos -->
+    <div class="srv-card">
+      <div class="srv-icon">
+        <svg width="26" height="28" viewBox="0 0 26 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M2 2H24L16 12V26L10 22V12L2 2Z" stroke="url(#funnel-grad)" stroke-width="1.8" stroke-linejoin="round" fill="none"/>
+          <defs>
+            <linearGradient id="funnel-grad" x1="2" y1="2" x2="24" y2="26" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#D92B1C"/>
+              <stop offset="0.5" stop-color="#F47920"/>
+              <stop offset="1" stop-color="#42A5F5"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+      <div class="srv-name">Embudos de Conversión</div>
+      <p class="srv-desc">Del primer clic a la venta. Cada etapa del recorrido optimizada para que nada se pierda en el camino.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how" id="como">
+  <div class="how-wrap">
+    <div>
+      <div class="eyebrow">Proceso</div>
+      <h2 class="st">De cero a<br/>resultados<br/>en <span class="grad-text">4 pasos</span></h2>
+      <p class="sec-desc" style="margin-top:18px">Un proceso claro, sin vueltas. Sabemos adónde vas y trazamos el camino para llegar.</p>
+    </div>
+    <div class="how-steps">
+      <div class="how-step">
+        <div class="step-n">1</div>
+        <div>
+          <div class="step-title">Auditoría estratégica</div>
+          <p class="step-text">Analizamos tu situación actual: cuentas, creatividades, historial y competencia. Sin punto de partida no hay rumbo.</p>
+        </div>
+      </div>
+      <div class="how-step">
+        <div class="step-n">2</div>
+        <div>
+          <div class="step-title">Estrategia y planificación</div>
+          <p class="step-text">Definimos objetivos reales, audiencias, mensajes y presupuesto. La estrategia siempre precede a la ejecución.</p>
+        </div>
+      </div>
+      <div class="how-step">
+        <div class="step-n">3</div>
+        <div>
+          <div class="step-title">Activación y optimización</div>
+          <p class="step-text">Lanzamos, monitoreamos y ajustamos en tiempo real. Cada campaña se optimiza para extraer el máximo rendimiento.</p>
+        </div>
+      </div>
+      <div class="how-step">
+        <div class="step-n">4</div>
+        <div>
+          <div class="step-title">Reportes con sentido</div>
+          <p class="step-text">Informes claros: qué pasó, por qué pasó y qué hacemos a continuación. Datos que se convierten en decisiones.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ECOSYSTEM STRIP -->
+<div class="ecosystem">
+  <div class="eco-inner">
+    <span class="eco-label">Ecosistema COSMART</span>
+    <div class="eco-sep"></div>
+    <div class="eco-ports">
+      <a href="https://cosmart.com.ar" class="eco-port">COSMART</a>
+      <a href="https://comunicos.cosmart.com.ar" class="eco-port">COMUNICOS</a>
+      <a href="https://desing.cosmart.com.ar" class="eco-port">DESING</a>
+      <a href="https://mpg.cosmart.com.ar" class="eco-port">MPG</a>
+      <span class="eco-port active">RUMBO VORAZ</span>
+      <a href="https://euforia.cosmart.com.ar" class="eco-port">EUFORIA</a>
+      <a href="https://talent.cosmart.com.ar" class="eco-port">TALENT</a>
+      <a href="https://shows.cosmart.com.ar" class="eco-port">SHOWS</a>
+    </div>
+  </div>
+</div>
+
+<!-- FAQ -->
+<section class="faq" id="faq">
+  <div class="eyebrow">Preguntas frecuentes</div>
+  <h2 class="st">Todo claro<br/>antes de<br/><span class="grad-text">arrancar</span></h2>
+  <div class="faq-grid">
+    <div class="faq-item">
+      <p class="faq-q">¿Con qué presupuesto mínimo trabajan?</p>
+      <p class="faq-a">Cada proyecto es diferente. Trabajamos desde presupuestos acotados con foco claro hasta grandes inversiones de performance. Lo importante es que el presupuesto sea coherente con el objetivo.</p>
+    </div>
+    <div class="faq-item">
+      <p class="faq-q">¿Cuánto tiempo tarda en verse resultados?</p>
+      <p class="faq-a">El proceso de onboarding e investigación de mercado lleva aproximadamente dos semanas antes de activar campañas. Los primeros datos útiles aparecen en las semanas siguientes. La optimización profunda ocurre a partir del mes uno.</p>
+    </div>
+    <div class="faq-item">
+      <p class="faq-q">¿Trabajan con cualquier tipo de negocio?</p>
+      <p class="faq-a">Trabajamos con marcas, emprendedores, empresas y artistas. Tanto B2C como B2B. Si tenés algo para ofrecer y querés crecer con inteligencia, podemos ayudarte.</p>
+    </div>
+    <div class="faq-item">
+      <p class="faq-q">¿Qué pasa si tengo cuentas publicitarias propias?</p>
+      <p class="faq-a">Ideal. Gestionamos tus cuentas existentes y, si necesitás, te ayudamos a crearlas. El activo siempre queda en tu poder.</p>
+    </div>
+    <div class="faq-item">
+      <p class="faq-q">¿Hacen las creatividades o solo la pauta?</p>
+      <p class="faq-a">Podemos asesorarte en estrategia creativa y, junto con Puerto DESING y Puerto COMUNICOS del ecosistema COSMART, producir piezas de alta conversión.</p>
+    </div>
+    <div class="faq-item">
+      <p class="faq-q">¿Cómo reportan los resultados?</p>
+      <p class="faq-a">Reportes claros, en lenguaje humano. Sin métricas de vanidad. Solo lo que importa: ROAS, CPL, conversiones, tendencias y próximos pasos.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ADMISIÓN -->
+<section class="how" id="admision" style="background:var(--dark3);">
+  <div class="how-wrap">
+    <div>
+      <div class="eyebrow">Proceso de admisión</div>
+      <h2 class="st">No trabajamos<br/>con cualquier<br/><span class="grad-text">proyecto</span></h2>
+      <p class="sec-desc" style="margin-top:18px">Evaluamos el potencial de cada negocio antes de aceptarlo como cliente. Esto nos permite comprometer resultados reales.</p>
+    </div>
+    <div class="how-steps">
+      <div class="how-step">
+        <div class="step-n">1</div>
+        <div>
+          <div class="step-title">Postulación</div>
+          <p class="step-text">Completás el formulario con tus objetivos, plataformas de interés y datos de tu negocio. Sin compromiso.</p>
+        </div>
+      </div>
+      <div class="how-step">
+        <div class="step-n">2</div>
+        <div>
+          <div class="step-title">Evaluación de potencial</div>
+          <p class="step-text">Analizamos tu mercado, competencia y viabilidad de escalar con pauta paga. No todos los proyectos son aptos — y eso es honesto.</p>
+        </div>
+      </div>
+      <div class="how-step">
+        <div class="step-n">3</div>
+        <div>
+          <div class="step-title">Reunión de diagnóstico</div>
+          <p class="step-text">Si el potencial está, agendamos una llamada para alinear expectativas, presupuesto y objetivos concretos.</p>
+        </div>
+      </div>
+      <div class="how-step">
+        <div class="step-n">4</div>
+        <div>
+          <div class="step-title">Propuesta y arranque</div>
+          <p class="step-text">Presentamos la estrategia, acordamos condiciones y comenzamos el proceso de investigación de mercado. El tiempo promedio hasta la primera campaña activa es de dos semanas.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACTO -->
+<section class="contact-sec" id="contacto">
+  <div class="contact-inner">
+    <div class="contact-left">
+      <div class="eyebrow" style="color:var(--orange);">Postularse</div>
+      <h2 class="st">Evaluamos<br/>tu proyecto<br/><span class="grad-text">sin costo</span></h2>
+      <p class="sec-desc" style="margin-top:16px; color:rgba(255,255,255,0.5);">Completá el formulario y analizamos si tu proyecto tiene el potencial para escalar con pauta paga. Respondemos en menos de 24 horas.</p>
+    </div>
+    <div class="contact-right">
+      <form class="contact-form" action="https://formspree.io/f/mnjypelo" method="POST" onsubmit="handleSubmit(event)">
+        <input type="hidden" name="_subject" value="Nueva consulta — Rumbo Voraz" />
+        <input type="hidden" name="_next" value="" />
+
+        <div class="form-group">
+          <label class="form-label">¿En qué plataformas querés publicitar?</label>
+          <div class="platform-checks">
+            <label class="check-card">
+              <input type="checkbox" name="plataformas" value="meta">
+              <span class="check-inner">
+                <span class="check-icons">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="#1877F2"/><path d="M16.5 2H14C11.239 2 9 4.239 9 7v2H6.5v3.5H9V22h3.5v-9.5H15l.5-3.5h-3V7c0-.828.672-1.5 1.5-1.5H16.5V2Z" fill="white"/></svg>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><defs><radialGradient id="igf" cx="30%" cy="107%" r="150%"><stop offset="0%" stop-color="#ffd600"/><stop offset="20%" stop-color="#ff7a00"/><stop offset="45%" stop-color="#ff0069"/><stop offset="65%" stop-color="#d300c5"/><stop offset="100%" stop-color="#7638fa"/></radialGradient></defs><rect width="24" height="24" rx="5" fill="url(#igf)"/><circle cx="12" cy="12" r="4.5" stroke="white" stroke-width="2" fill="none"/><circle cx="17.5" cy="6.5" r="1.2" fill="white"/></svg>
+                </span>
+                <span class="check-name">Meta Ads</span>
+                <span class="check-sub">Facebook · Instagram</span>
+              </span>
+            </label>
+            <label class="check-card">
+              <input type="checkbox" name="plataformas" value="google">
+              <span class="check-inner">
+                <span class="check-icons">
+                  <svg width="20" height="20" viewBox="0 0 40 40" fill="none"><path d="M37.86 20.39C37.86 19.11 37.75 17.87 37.54 16.68H20V23.7H29.92C29.52 25.84 28.31 27.66 26.5 28.87V33.25H32.4C35.88 30.04 37.86 25.64 37.86 20.39Z" fill="#4285F4"/><path d="M20 37.5C24.98 37.5 29.15 35.86 32.4 33.25L26.5 28.87C24.86 29.97 22.73 30.66 20 30.66C15.2 30.66 11.14 27.42 9.68 22.95H3.6V27.47C6.83 33.88 13.02 37.5 20 37.5Z" fill="#34A853"/><path d="M9.68 22.95C9.3 21.85 9.09 20.68 9.09 19.5C9.09 18.32 9.3 17.15 9.68 16.05V11.53H3.6C2.35 14.02 1.5 16.69 1.5 19.5C1.5 22.31 2.35 24.98 3.6 27.47L9.68 22.95Z" fill="#FBBC04"/><path d="M20 8.34C22.84 8.34 25.37 9.33 27.38 11.26L32.55 6.09C29.14 2.9 24.96 1 20 1C13.02 1 6.83 4.62 3.6 11.03L9.68 15.55C11.14 11.08 15.2 8.34 20 8.34Z" fill="#EA4335"/></svg>
+                </span>
+                <span class="check-name">Google Ads</span>
+                <span class="check-sub">Search · Display</span>
+              </span>
+            </label>
+            <label class="check-card">
+              <input type="checkbox" name="plataformas" value="tiktok">
+              <span class="check-inner">
+                <span class="check-icons">
+                  <svg width="16" height="20" viewBox="0 0 24 28" fill="none"><path d="M18.5 1C18.9 4.4 20.8 6.4 24 6.6V10.4C22.1 10.5 20.4 9.8 18.5 8.6V16.3C18.5 25.5 9 28.3 4.9 22.3C2.2 18.2 3.8 11.4 10.8 11.1V15.1C10.1 15.2 9.5 15.5 9 15.8C7.2 16.8 6.7 18.7 7.3 20.4C8.2 23.5 13.5 24.4 13.5 19.3V1H18.5Z" fill="white"/></svg>
+                </span>
+                <span class="check-name">TikTok Ads</span>
+                <span class="check-sub">In-Feed · TopView</span>
+              </span>
+            </label>
+            <label class="check-card">
+              <input type="checkbox" name="plataformas" value="linkedin">
+              <span class="check-inner">
+                <span class="check-icons">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="3" fill="#0A66C2"/><path d="M8 14H10.5V20H8V14Z" fill="white"/><circle cx="9.25" cy="10.25" r="1.5" fill="white"/><path d="M12 14H14.3V15H14.34C14.74 14.2 15.8 13.4 17.4 13.4C20 13.4 20.5 15.1 20.5 17.4V20H18V17.6C18 16.7 17.98 15.5 16.5 15.5C15 15.5 14.8 16.5 14.8 17.5V20H12.2V14H12Z" fill="white"/></svg>
+                </span>
+                <span class="check-name">LinkedIn Ads</span>
+                <span class="check-sub">B2B · Lead Gen</span>
+              </span>
+            </label>
+            <label class="check-card">
+              <input type="checkbox" name="plataformas" value="email">
+              <span class="check-inner">
+                <span class="check-icons">
+                  <svg width="22" height="16" viewBox="0 0 22 16" fill="none"><rect x="1" y="1" width="20" height="14" rx="2" stroke="rgba(255,255,255,0.6)" stroke-width="1.5"/><path d="M1 3L11 9.5L21 3" stroke="rgba(255,255,255,0.6)" stroke-width="1.5" stroke-linecap="round"/></svg>
+                </span>
+                <span class="check-name">Email Marketing</span>
+                <span class="check-sub">Flows · Campañas</span>
+              </span>
+            </label>
+            <label class="check-card check-card-wide">
+              <input type="checkbox" name="plataformas" value="nosé">
+              <span class="check-inner">
+                <span class="check-icons" style="font-size:18px; line-height:1;">?</span>
+                <span class="check-name">No sé todavía</span>
+                <span class="check-sub">Me ayudás a elegir</span>
+              </span>
+            </label>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="nombre">Nombre</label>
+            <input class="form-input" type="text" id="nombre" name="nombre" placeholder="Tu nombre" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="empresa">Empresa / marca</label>
+            <input class="form-input" type="text" id="empresa" name="empresa" placeholder="Nombre de tu marca" />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="email">Email</label>
+            <input class="form-input" type="email" id="email" name="email" placeholder="tu@email.com" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="tel">Teléfono (opcional)</label>
+            <input class="form-input" type="tel" id="tel" name="tel" placeholder="+54 9 11 ..." />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Tus redes sociales y sitio web</label>
+          <div class="social-fields">
+            <div class="social-field">
+              <span class="social-field-icon">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><defs><radialGradient id="igff" cx="30%" cy="107%" r="150%"><stop offset="0%" stop-color="#ffd600"/><stop offset="20%" stop-color="#ff7a00"/><stop offset="45%" stop-color="#ff0069"/><stop offset="65%" stop-color="#d300c5"/><stop offset="100%" stop-color="#7638fa"/></radialGradient></defs><rect width="24" height="24" rx="5" fill="url(#igff)"/><circle cx="12" cy="12" r="4.5" stroke="white" stroke-width="2" fill="none"/><circle cx="17.5" cy="6.5" r="1.2" fill="white"/></svg>
+              </span>
+              <input class="form-input social-input" type="text" name="instagram" placeholder="@usuario de Instagram" />
+            </div>
+            <div class="social-field">
+              <span class="social-field-icon">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="5" fill="#1877F2"/><path d="M16.5 2H14C11.239 2 9 4.239 9 7v2H6.5v3.5H9V22h3.5v-9.5H15l.5-3.5h-3V7c0-.828.672-1.5 1.5-1.5H16.5V2Z" fill="white"/></svg>
+              </span>
+              <input class="form-input social-input" type="text" name="facebook" placeholder="facebook.com/tu-página" />
+            </div>
+            <div class="social-field">
+              <span class="social-field-icon">
+                <svg width="12" height="14" viewBox="0 0 24 28" fill="none"><path d="M18.5 1C18.9 4.4 20.8 6.4 24 6.6V10.4C22.1 10.5 20.4 9.8 18.5 8.6V16.3C18.5 25.5 9 28.3 4.9 22.3C2.2 18.2 3.8 11.4 10.8 11.1V15.1C10.1 15.2 9.5 15.5 9 15.8C7.2 16.8 6.7 18.7 7.3 20.4C8.2 23.5 13.5 24.4 13.5 19.3V1H18.5Z" fill="white"/></svg>
+              </span>
+              <input class="form-input social-input" type="text" name="tiktok" placeholder="@usuario de TikTok" />
+            </div>
+            <div class="social-field">
+              <span class="social-field-icon">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="3" fill="#0A66C2"/><path d="M8 14H10.5V20H8V14Z" fill="white"/><circle cx="9.25" cy="10.25" r="1.5" fill="white"/><path d="M12 14H14.3V15H14.34C14.74 14.2 15.8 13.4 17.4 13.4C20 13.4 20.5 15.1 20.5 17.4V20H18V17.6C18 16.7 17.98 15.5 16.5 15.5C15 15.5 14.8 16.5 14.8 17.5V20H12.2V14H12Z" fill="white"/></svg>
+              </span>
+              <input class="form-input social-input" type="text" name="linkedin" placeholder="linkedin.com/company/..." />
+            </div>
+            <div class="social-field social-field-wide">
+              <span class="social-field-icon" style="color:rgba(255,255,255,0.4); font-size:13px;">🌐</span>
+              <input class="form-input social-input" type="url" name="sitio_web" placeholder="www.tusitio.com" />
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="mensaje">¿Qué querés lograr?</label>
+          <textarea class="form-input form-textarea" id="mensaje" name="mensaje" placeholder="Contanos brevemente tu objetivo..."></textarea>
+        </div>
+
+        <button type="submit" class="btn-primary form-submit">Enviar consulta →</button>
+
+        <div class="form-success" id="formSuccess">
+          ¡Listo! Te contactamos en menos de 24 horas.
+        </div>
+
+      </form>
+    </div>
+  </div>
+</section>
+
+<script>
+function handleSubmit(e) {
+  e.preventDefault();
+  document.getElementById('formSuccess').style.display = 'block';
+  e.target.querySelector('.form-submit').style.display = 'none';
+}
+</script>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand-block">
+      <div class="f-cosmart">Puerto del conglomerado COSMART</div>
+      <div class="f-name">RUMBO <span class="v-accent">VORAZ</span></div>
+      <div class="f-tagline">Performance Marketing · Tu Brújula Digital</div>
+      <p>Ayudamos a marcas, emprendedores y empresas a crecer mediante performance marketing orientado a resultados reales. Un Puerto especializado del ecosistema COSMART.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Servicios</h4>
+      <ul>
+        <li><a href="#servicios">Meta Ads</a></li>
+        <li><a href="#servicios">Google Ads</a></li>
+        <li><a href="#servicios">TikTok Ads</a></li>
+        <li><a href="#servicios">LinkedIn Ads</a></li>
+        <li><a href="#servicios">Email Marketing</a></li>
+        <li><a href="#servicios">Embudos de conversión</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Conglomerado COSMART</h4>
+      <ul>
+        <li><a href="https://cosmart.com.ar">Puerto COSMART</a></li>
+        <li><a href="https://comunicos.cosmart.com.ar">Puerto COMUNICOS</a></li>
+        <li><a href="https://desing.cosmart.com.ar">Puerto DESING</a></li>
+        <li><a href="https://mpg.cosmart.com.ar">Puerto MPG</a></li>
+        <li><a href="https://euforia.cosmart.com.ar">Puerto EUFORIA</a></li>
+        <li><a href="https://talent.cosmart.com.ar">Puerto TALENT</a></li>
+        <li><a href="https://shows.cosmart.com.ar">Puerto SHOWS</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 Rumbo Voraz · Puerto del conglomerado <a href="https://cosmart.com.ar">COSMART</a></p>
+    <a href="https://cosmart.com.ar" class="back-cosmart">← Volver a cosmart.com.ar</a>
+  </div>
+</footer>
+
+</body>
+</html>
