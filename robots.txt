@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://rumbovoraz.cosmart.com.ar/sitemap.xml
