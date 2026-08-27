@@ -1599,9 +1599,7 @@
       <p class="sec-desc" style="margin-top:16px; color:rgba(255,255,255,0.5);">Completá el formulario y analizamos si tu proyecto tiene el potencial para escalar con pauta paga. Respondemos en menos de 24 horas.</p>
     </div>
     <div class="contact-right">
-      <form class="contact-form" action="https://formspree.io/f/mnjypelo" method="POST" onsubmit="handleSubmit(event)">
-        <input type="hidden" name="_subject" value="Nueva consulta — Rumbo Voraz" />
-        <input type="hidden" name="_next" value="" />
+      <form class="contact-form" onsubmit="handleSubmit(event)">
 
         <div class="form-group">
           <label class="form-label">¿En qué plataformas querés publicitar?</label>
@@ -1748,8 +1746,30 @@
 <script>
 function handleSubmit(e) {
   e.preventDefault();
-  document.getElementById('formSuccess').style.display = 'block';
-  e.target.querySelector('.form-submit').style.display = 'none';
+  const form = e.target;
+  const btn = form.querySelector('.form-submit');
+  if (btn) { btn.disabled = true; btn.textContent = 'Enviando...'; }
+
+  const fd = new FormData(form);
+  const datos = Object.fromEntries(fd.entries());
+  // "plataformas" son checkboxes del mismo grupo — Object.fromEntries
+  // se queda solo con el último marcado, hay que juntarlos con getAll().
+  datos.plataformas = fd.getAll('plataformas');
+
+  fetch('https://cosmart-design.conglomeradocosmart.workers.dev/rumbovoraz/contacto', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(datos)
+  })
+    .then(r => {
+      if (!r.ok) throw new Error('bad response');
+      document.getElementById('formSuccess').style.display = 'block';
+      if (btn) btn.style.display = 'none';
+    })
+    .catch(() => {
+      if (btn) { btn.disabled = false; btn.textContent = 'Reintentar →'; }
+      alert('Hubo un error al enviar. Escribinos directamente a info@cosmart.com.ar');
+    });
 }
 </script>
 
